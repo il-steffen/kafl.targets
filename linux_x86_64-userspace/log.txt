@@ -1,0 +1,58 @@
+make[1]: Entering directory '/home/rmalmain/syx/main/examples/linux_x86_64-userspace'
+[*] Start Debug
+KERNEL=/boot/vmlinuz-5.10.73-kafl+ INITRD=build/initrd.cpio.gz SHAREDIR=sharedir WORKDIR=workdir ./debug.sh
+
+    __                        __  ___    ________
+   / /_____  _________  ___  / / /   |  / ____/ /
+  / //_/ _ \/ ___/ __ \/ _ \/ / / /| | / /_  / /
+ / ,< /  __/ /  / / / /  __/ / / ___ |/ __/ / /___
+/_/|_|\___/_/  /_/ /_/\___/_/ /_/  |_/_/   /_____/
+===================================================
+
+<< [1m[92mkAFL Debugger[0m >>
+
+[KStarting Qemu + GDB with payload /tmp/input.txt
+[KConnect with gdb to release guest from reset (localhost:1234)
+[KWorker-00 Launching virtual machine...
+/home/rmalmain/syx/main/kafl/nyx/qemu/x86_64-softmmu/qemu-system-x86_64
+	-enable-kvm
+	-machine kAFL64-v1
+	-cpu kAFL64-Hypervisor-v1,+vmx
+	-no-reboot
+	-net none
+	-display none
+	-chardev socket,server,nowait,id=nyx_socket,path=/home/rmalmain/syx/main/examples/linux_x86_64-userspace/workdir/interface_0
+	-device nyx,chardev=nyx_socket,workdir=/home/rmalmain/syx/main/examples/linux_x86_64-userspace/workdir,worker_id=0,bitmap_size=65536,input_buffer_size=131072,sharedir=/home/rmalmain/syx/main/examples/linux_x86_64-userspace/sharedir,ip0_a=0x402000,ip0_b=0x497000
+	-device isa-serial,chardev=kafl_serial
+	-chardev file,id=kafl_serial,mux=on,path=/home/rmalmain/syx/main/examples/linux_x86_64-userspace/workdir/serial_00.log
+	-m 256
+	-kernel /boot/vmlinuz-5.10.73-kafl+
+	-initrd /home/rmalmain/syx/main/examples/linux_x86_64-userspace/build/initrd.cpio.gz
+	-append nokaslr oops=panic nopti mitigations=off console=ttyS0
+	-fast_vm_reload path=/home/rmalmain/syx/main/examples/linux_x86_64-userspace/workdir/snapshot/,load=off
+[K[95mInitiate fuzzer handshake...
+[0m[K[95m[!] No kasan handler used.
+[0m[K[95m	host_config.bitmap_size: 0x10000
+[0m[K[95m	host_config.ijon_bitmap_size: 0x1000
+[0m[K[95m	host_config.payload_buffer_size: 0x20000
+[0m[K[95mTarget init done...
+[0m	- Physical Address: 0x1fe3000
+	- Length: 512
+
+[KWorker-00 Handshake done.
+[K[95mBetween root and snapshot
+[0m	- Physical address: 0x1fe3001
+	- Virtual address: 0x123000001
+
+[QEMU] enabling TCG mode...
+[K[PYTHON] Symbolic Execution request with parameters:
+[K	Physical address: 0x1fe3000
+[K	Virtual address: 0x123000000
+[K	length: 512
+[KSYX Worker-01 Launching virtual machine...
+[KShutting down SYX TCG qemu..
+[KSYX Worker-01 Shutting down Qemu after 0 execs..
+[KShutting down KVM qemu..
+[KThank you for playing.
+[KWorker-00 Shutting down Qemu after 0 execs..
+[KReceived Ctrl-C, aborting...

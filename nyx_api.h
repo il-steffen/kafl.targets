@@ -121,11 +121,10 @@ static void habort(char* msg){
 static void hprintf(const char * format, ...)  __attribute__ ((unused));
 static void hprintf(const char * format, ...){
 	static char hprintf_buffer[HPRINTF_MAX_SIZE] __attribute__((aligned(4096)));
-
 	va_list args;
 	va_start(args, format);
+
 	vsnprintf((char*)hprintf_buffer, HPRINTF_MAX_SIZE, format, args);
-	//printf("%s", hprintf_buffer);
 	kAFL_hypercall(HYPERCALL_KAFL_PRINTF, (uintptr_t)hprintf_buffer);
 	va_end(args);
 }

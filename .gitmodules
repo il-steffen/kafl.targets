@@ -1,0 +1,3 @@
+[submodule "linux_x86_64-userspace/helpers"]
+	path = linux_x86_64-userspace/helpers
+	url = https://github.com/rmalmain/kafl.helpers.git

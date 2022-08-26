@@ -82,7 +82,17 @@
 #define KAFL_MODE_32	1
 #define KAFL_MODE_16	2
 
+typedef union {
+	struct {
+		unsigned int dump_callers :1;
+	};
+	uint32_t raw_data;
+} __attribute__((packed)) agent_flags_t;
+
+_Static_assert(sizeof(agent_flags_t) == 4, "Wrong struct size.");
+
 typedef struct {
+	agent_flags_t flags;
 	int32_t size;
 	uint8_t data[];
 } kAFL_payload;

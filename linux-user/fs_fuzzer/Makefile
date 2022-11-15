@@ -28,7 +28,7 @@ test: fs_fuzzer.cpio.gz fs_fuzzer
 		--initrd $< \
 		--memory 512 \
 		--work-dir $$KAFL_WORKDIR \
-		--sharedir $$(pwd) \
+		--sharedir $$PWD/sharedir/ \
 		--seed-dir seeds/ \
 		-t 4 -ts 2 -tc \
 		--purge --log --payload-size 1310720

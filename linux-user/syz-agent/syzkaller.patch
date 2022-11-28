@@ -1,0 +1,40 @@
+diff --git a/tools/syz-stress/stress.go b/tools/syz-stress/stress.go
+index 26d17844b..2b6a0bfbe 100644
+--- a/tools/syz-stress/stress.go
++++ b/tools/syz-stress/stress.go
+@@ -10,6 +10,7 @@
+ package main
+ 
+ import (
++	"encoding/binary"
+ 	"flag"
+ 	"fmt"
+ 	"math/rand"
+@@ -97,22 +98,19 @@ func main() {
+ 			if err != nil {
+ 				log.Fatalf("failed to create execution environment: %v", err)
+ 			}
+-			rs := rand.NewSource(time.Now().UnixNano() + int64(pid)*1e12)
+-			rnd := rand.New(rs)
++			seed, err := os.ReadFile("/tmp/payload")
++			if err != nil {
++				log.Fatal(err)
++			}
++			rs := rand.NewSource(int64(binary.LittleEndian.Uint64(seed)))
+ 			for i := 0; ; i++ {
+ 				var p *prog.Prog
+-				if *flagGenerate && len(corpus) == 0 || i%4 != 0 {
+ 					p = target.Generate(rs, prog.RecommendedCalls, ct)
+ 					execute(pid, env, execOpts, p)
+ 					p.Mutate(rs, prog.RecommendedCalls, ct, nil, corpus)
+ 					execute(pid, env, execOpts, p)
+-				} else {
+-					p = corpus[rnd.Intn(len(corpus))].Clone()
+-					p.Mutate(rs, prog.RecommendedCalls, ct, nil, corpus)
+-					execute(pid, env, execOpts, p)
+ 					p.Mutate(rs, prog.RecommendedCalls, ct, nil, corpus)
+ 					execute(pid, env, execOpts, p)
+-				}
+ 			}
+ 		}()
+ 	}

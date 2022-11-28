@@ -33,7 +33,7 @@
 
 #include <nyx_api.h>
 
-#include "nyx_agent.h"
+#include <libnyx_agent.h>
 //#include "utils.h"
 
 struct cmd_table {

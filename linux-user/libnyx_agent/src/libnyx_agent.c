@@ -37,7 +37,7 @@
 
 #include <nyx_api.h>
 
-#include "nyx_agent.h"
+#include "libnyx_agent.h"
 
 nyx_cpu_type_t nyx_cpu_type = nyx_cpu_invalid;
 

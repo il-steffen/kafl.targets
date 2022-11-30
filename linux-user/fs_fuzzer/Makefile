@@ -1,7 +1,11 @@
-NYX_INCLUDE_PATH ?= $(EXAMPLES_ROOT)
-KERNEL_IMAGE ?= /boot/vmlinuz-$$(uname -r)
+ifeq ($(EXAMPLES_ROOT),)
+$(error $$EXAMPLES_ROOT is not set - did you activate kAFL env?)
+endif
 
 all: debug
+
+NYX_INCLUDE_PATH ?= $(EXAMPLES_ROOT)
+KERNEL_IMAGE ?= /boot/vmlinuz-$$(uname -r)
 
 LIBNYX_AGENT_ROOT ?= $(EXAMPLES_ROOT)/linux-user/libnyx_agent
 include $(LIBNYX_AGENT_ROOT)/Makefile.inc
